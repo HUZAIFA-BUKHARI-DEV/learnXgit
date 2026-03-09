@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git cheat sheet · dev + plain english</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d1117;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #e6edf3;
+            padding: 2.5rem 1.5rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #79c0ff, #a5d6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 0.75rem;
+        }
+
+        .subhead {
+            color: #8b949e;
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            border-left: 4px solid #2f81f7;
+            padding-left: 1.2rem;
+            background: #161b22;
+            border-radius: 0 12px 12px 0;
+            padding: 0.9rem 2rem;
+            width: fit-content;
+        }
+
+        /* section styling — professional / minimal */
+        .section-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .section-header {
+            background: #1f252e;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid #3d444d;
+            transition: background 0.15s;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            background: #2a313c;
+        }
+
+        .section-header h2 {
+            font-size: 1.9rem;
+            font-weight: 500;
+            color: #e6edf3;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-tag {
+            background: #2f81f7;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .toggle-icon {
+            color: #b1bac4;
+            font-size: 2rem;
+            font-weight: 300;
+            width: 36px;
+            text-align: center;
+        }
+
+        .section-content {
+            padding: 0.5rem 1.2rem 1.2rem 1.2rem;
+        }
+
+        /* command card – technical + plain layer */
+        .command-card {
+            background: #1a212b;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            margin: 1.5rem 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .command-header {
+            display: flex;
+            border-bottom: 1px solid #30363d;
+            background: #1f2a36;
+            flex-wrap: wrap;
+        }
+
+        .command-name {
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            font-size: 1.3rem;
+            font-weight: 550;
+            padding: 1rem 1.8rem;
+            background: #1c2632;
+            color: #ffa657;
+            min-width: 260px;
+            border-right: 1px solid #3d4754;
+            letter-spacing: -0.2px;
+        }
+
+        .command-description {
+            padding: 1rem 1.8rem;
+            color: #e1e9f0;
+            flex: 1;
+            font-size: 1rem;
+            background: #1b232f;
+        }
+
+        /* plain english pill */
+        .plain-badge {
+            background: #2f3e54;
+            color: #b3e0ff;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 0.6rem;
+            border: 1px solid #3a5470;
+            letter-spacing: 0.2px;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .purpose-cell {
+            padding: 1.3rem 1.8rem;
+            background: #1a212b;
+            border-right: 1px solid #30363d;
+        }
+
+        .example-cell {
+            padding: 1.3rem 1.8rem;
+            background: #1e2632;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8b949e;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .purpose-text {
+            color: #e1e9f0;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .plain-text {
+            background: #1f2d3a;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            color: #c9dff2;
+            font-size: 0.95rem;
+            border-left: 4px solid #6c9fd1;
+            margin-top: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .example-text {
+            background: #0f181f;
+            border-left: 4px solid #2f81f7;
+            padding: 1rem 1.3rem;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #e3c9a5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .example-text code {
+            background: #1f384b;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            color: #e3cbaa;
+        }
+
+        .real-scenario-badge {
+            background: #2f3e54;
+            color: #d9e2f0;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #466481;
+        }
+
+        @media (max-width: 800px) {
+            .grid-2col { grid-template-columns: 1fr; }
+            .purpose-cell { border-right: none; border-bottom: 1px solid #30363d; }
+            .command-header { flex-direction: column; }
+            .command-name { border-right: none; border-bottom: 1px solid #3d4754; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⎈ git cheatsheet · dev + plain english</h1>
+    <div class="subhead">technical purpose + plain translation for junior devs — same professional theme</div>
+
+    <!-- BASIC -->
+    <div class="section-card">
+        <div class="section-header" onclick="toggleSection(this)">
+            <h2><span class="section-tag">core</span> 1. BASIC · daily operations</h2>
+            <div class="toggle-icon" id="toggleBasic">−</div>
+        </div>
+        <div class="section-content" id="basicContent">
+            <!-- init -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git init</span><span class="command-description">initialize repository</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Creates a new .git subdirectory, enabling version control in an existing project. Transforms a regular folder into a git repository.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🧠 tells your folder: "start recording every change i make from now on". creates a hidden storage for future snapshots.</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example / real use</span>
+                        <div class="example-text">$ cd ~/projects/new-api<br>$ git init<br># now you can track files</div>
+                    </div>
+                </div>
+            </div>
+            <!-- clone -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git clone &lt;url&gt;</span><span class="command-description">copy remote repo</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Clones a remote repository (all commits, branches) into a new directory. Standard way to get a working copy from GitHub/GitLab.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 📦 downloads a complete project from the internet (including all history) to your computer.</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example</span>
+                        <div class="example-text">$ git clone https://github.com/org/service.git<br># entire repo lands in ./service</div>
+                    </div>
+                </div>
+            </div>
+            <!-- status -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git status</span><span class="command-description">show working tree state</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Displays which changes are staged, unstaged, or untracked. First command to run when you need orientation.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🔍 asks git: "what's different since the last snapshot? what's ready to save?"</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example</span>
+                        <div class="example-text">$ git status<br># On branch main, modified: index.html, untracked: .env</div>
+                    </div>
+                </div>
+            </div>
+            <!-- add -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git add &lt;path&gt; / -p</span><span class="command-description">stage changes</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Stages modifications. -p allows interactive hunk staging (partial commits). Moves changes from working dir to index.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> ➕ selects which changed files (or parts of files) you want to include in the next snapshot.</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example</span>
+                        <div class="example-text">$ git add src/*.js<br>$ git add -p  # choose pieces interactively</div>
+                    </div>
+                </div>
+            </div>
+            <!-- commit -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git commit -m</span><span class="command-description">record snapshot</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Takes staged changes and creates a new commit with a message. Permanent entry in project log.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 📸 saves a permanent picture of the staged changes, with a short label describing what you did.</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example</span>
+                        <div class="example-text">$ git commit -m "feat: add rate limiting middleware"</div>
+                    </div>
+                </div>
+            </div>
+            <!-- log -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git log (--oneline)</span><span class="command-description">show history</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Displays commit history; --oneline compresses each commit to one line (hash + title). Useful for quick overview.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 📋 shows the album of all past snapshots, with dates and messages.</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example</span>
+                        <div class="example-text">$ git log --oneline -5<br># last 5 commits, one line each</div>
+                    </div>
+                </div>
+            </div>
+            <!-- diff -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git diff [--staged]</span><span class="command-description">show line changes</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span>
+                        <div class="purpose-text">Without flags: diff working dir vs index. --staged: diff index vs last commit (what would be committed).</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 📏 compares current unsaved changes against the last snapshot. helps you review before staging.</div>
+                    </div>
+                    <div class="example-cell">
+                        <span class="label">example</span>
+                        <div class="example-text">$ git diff           # unstaged changes<br>$ git diff --staged  # staged changes (review before commit)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEDIUM -->
+    <div class="section-card">
+        <div class="section-header" onclick="toggleSection(this)">
+            <h2><span class="section-tag">branching</span> 2. MEDIUM · collaboration & branches</h2>
+            <div class="toggle-icon" id="toggleMedium">−</div>
+        </div>
+        <div class="section-content" id="mediumContent">
+            <!-- branch -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git branch</span><span class="command-description">list / create branches</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">List existing branches. With a name, creates a new branch (but does not switch).</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🌿 shows all parallel versions of your project, or makes a new experimental line.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git branch feat/auth<br>$ git branch --all</div></div>
+                </div>
+            </div>
+            <!-- switch -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git switch &lt;branch&gt;</span><span class="command-description">move HEAD</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Switch to another branch (updates working tree). -c creates and switches.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🔄 jumps between different parallel versions of your code.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git switch -c feature/pagination<br>$ git switch main</div></div>
+                </div>
+            </div>
+            <!-- merge -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git merge &lt;branch&gt;</span><span class="command-description">integrate changes</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Merges specified branch into current branch. May produce merge commit or fast-forward.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🔀 combines work from a different branch into your current one.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git checkout main<br>$ git merge feature/pagination</div></div>
+                </div>
+            </div>
+            <!-- pull / push -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git pull / push</span><span class="command-description">sync remote</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Pull = fetch + merge remote changes. Push = upload local commits to remote.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> ⬇️ pulls updates from github; ⬆️ sends your snapshots to github.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git pull origin main<br>$ git push origin feature/x</div></div>
+                </div>
+            </div>
+            <!-- merge conflicts -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">merge conflicts</span><span class="command-description">manual resolution</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">When automatic merge fails, git marks conflicted files. Edit, remove markers, stage and commit.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> ⚠️ git is confused because two different changes touched the same line. you must manually pick the correct version.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git status<br># edit file, remove <<< === >>><br>$ git add .<br>$ git commit</div></div>
+                </div>
+            </div>
+            <!-- stash -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git stash / pop</span><span class="command-description">shelve changes</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Stash saves uncommitted work and cleans working dir. pop reapplies last stash.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🧹 temporarily puts aside unfinished work so you can do something else, then brings it back.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git stash<br>$ git switch hotfix<br>$ git stash pop</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADVANCED -->
+    <div class="section-card">
+        <div class="section-header" onclick="toggleSection(this)">
+            <h2><span class="section-tag">history</span> 3. ADVANCED · rewriting & debugging</h2>
+            <div class="toggle-icon" id="toggleAdvanced">−</div>
+        </div>
+        <div class="section-content" id="advancedContent">
+            <!-- rebase -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git rebase</span><span class="command-description">reapply commits</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Takes commits from current branch and replays them onto target. Results in linear history. Avoid on shared branches.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> ⏳ rewrites history so it looks like your work started from a newer point – keeps timeline clean.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git rebase main<br>$ git rebase --continue</div></div>
+                </div>
+            </div>
+            <!-- rebase -i -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git rebase -i HEAD~N</span><span class="command-description">interactive rewrite</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Opens editor to squash, reword, drop, or reorder last N commits before push.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> ✏️ lets you clean up messy commit history (combine, rename, delete) before sharing.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git rebase -i HEAD~4  # reorganise last 4 commits</div></div>
+                </div>
+            </div>
+            <!-- reflog -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git reflog</span><span class="command-description">reference log</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Shows history of where HEAD pointed. Essential to recover lost commits after reset / rebase.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🆘 a diary of everything you did – even if you deleted something, you can find it here.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git reflog<br>$ git reset --hard HEAD@{2}</div></div>
+                </div>
+            </div>
+            <!-- cherry-pick -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git cherry-pick &lt;hash&gt;</span><span class="command-description">apply specific commit</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Copies a commit from any branch into current HEAD. Useful for backporting fixes.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🍒 grabs a single change from another branch and applies it to your current one.</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git cherry-pick f3a1d4b</div></div>
+                </div>
+            </div>
+            <!-- bisect -->
+            <div class="command-card">
+                <div class="command-header"><span class="command-name">git bisect</span><span class="command-description">binary search</span></div>
+                <div class="grid-2col">
+                    <div class="purpose-cell">
+                        <span class="label">technical</span><div class="purpose-text">Binary search through commits to locate where a bug was introduced. Marks commits as good/bad.</div>
+                        <div class="plain-text"><span class="plain-badge">plain english</span> 🔎 helps you find which exact commit caused a bug by jumping through history and asking "is this version good or bad?"</div>
+                    </div>
+                    <div class="example-cell"><span class="label">example</span><div class="example-text">$ git bisect start<br>$ git bisect bad HEAD<br>$ git bisect good v1.2.3<br># then test & mark good/bad</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:right; color: #5d768a; padding: 1.5rem 1rem;">• click section headers to collapse/expand •</div>
+</div>
+
+<script>
+    function toggleSection(headerEl) {
+        const content = headerEl.nextElementSibling;
+        const icon = headerEl.querySelector('.toggle-icon');
+        if (!content || !icon) return;
+        if (window.getComputedStyle(content).display === 'none') {
+            content.style.display = 'block';
+            icon.textContent = '−';
+        } else {
+            content.style.display = 'none';
+            icon.textContent = '+';
+        }
+    }
+
+    window.onload = function() {
+        document.querySelectorAll('.section-content').forEach(el => el.style.display = 'block');
+        document.querySelectorAll('.toggle-icon').forEach(el => el.textContent = '−');
+    };
+</script>
+<noscript><style>.section-content{display:block;}</style></noscript>
+</body>
+</html>
